@@ -65,3 +65,8 @@ Função que calcula uma pontuação a favor de agente a partir de estados.
 Cada jogo tem sua funcao de utilidade para os estados.
 
 Obs: Eu não sei como fazer a nossa própria função de utilidade. (ainda)
+
+função de utilidade --> número de peças do agente - número de peças do oponente.
+ Exemplo (inicio do jogo): 2 - 2 = 0 . 
+ Exemplo (situação aonde o agente está melhor na partida): 20 - 10 = 10
+ Exemplo (situação aonde o agente está pior na partida): 5 - 30 = -25
