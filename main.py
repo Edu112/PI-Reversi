@@ -27,7 +27,9 @@ class Tabuleiro:
         if position not in range(0,64):           
             return print("Posição não está entre 0 e 64")
             
-        elif not self.IsFilled(position):
+        elif self.IsFilled(position):
+            return print("Jogada inválida")
+        else:
             self.initial_state[position] = Jogador.symbol
         self.ShowBoard()
 
