@@ -84,3 +84,11 @@ função de utilidade --> número de peças do agente - número de peças do opo
 # Validação dos movimentos
 
 A partir de uma jogada "x" ou "o" na casa [n], percorremos todas as posições da direção de [n] na vertical, para cima e para baixo; se encontrarmos peças do adversário entre dois "x" ou "o", guardamos as posições das peças adversárias. Após isso, faremos o mesmo método percorrendo todas as posições na horizontal e nas duas diagonais. Ao final, invertemos todas as peças que guardamos.
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+# Visual para o Jogador
+
+Colocar o index em jogadas válidas.

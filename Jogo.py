@@ -14,6 +14,8 @@ def PositionToInvert(possiblePositionToInvert, symbolPlayer, oppositeSymbol):
 
     positionToInvert = []  
 
+    return possiblePositionToInvert  
+'''
     lessIndex = len(possiblePositionToInvert) - 1  
     for i in range(lessIndex, -1, -1):
         ppti = possiblePositionToInvert[i]  #ppti: Abreviação de possiblePositionToInvert
@@ -28,7 +30,7 @@ def PositionToInvert(possiblePositionToInvert, symbolPlayer, oppositeSymbol):
 
             return positionToInvert  # Retorna a lista de posições a serem invertidas
     return []  
-
+'''
 def PossiblePositionToInvertVerticallyUp(jogadaPlayer, symbolPlayer):
 
     possiblePositionToInvert = []  
@@ -41,10 +43,20 @@ def PossiblePositionToInvertVerticallyUp(jogadaPlayer, symbolPlayer):
     else:
         oppositeSymbol = "x"
 
-    for i in range(jogadaPlayer - 8, -1, -8): # i começa sendo a posição acima da escolhida pelo jogador, enquanto i > -1, decrementamos de 8 em 8. 
-        possiblePositionToInvert.append(i)
+    i = jogadaPlayer - 8
 
+    while tabuleiro.initial_state[i] != symbolPlayer:
+        if tabuleiro.initial_state[i] == "_":
+            return []
+        possiblePositionToInvert.append(i)
+        i = i - 8
     return PositionToInvert(possiblePositionToInvert, symbolPlayer, oppositeSymbol)
+
+
+
+    #for i in range(jogadaPlayer - 8, -1, -8): # i começa sendo a posição acima da escolhida pelo jogador, enquanto i > -1, decrementamos de 8 em 8. 
+       # possiblePositionToInvert.append(i)
+
 
 def PlayGame(Jogador):
     jogadaPlayer = Jogador.UserInput()  
