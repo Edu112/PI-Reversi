@@ -22,11 +22,11 @@ estadoInicial = [
 ]
 
 indexVisual = [
-    "0" , "1" , "2" , "3" , "4" , "5" , "6" , "7" ,
-    "8" , "9" , "10" , "11" , "12" , "13" , "14" , "15" ,
+    "00" , "01" , "02" , "03" , "04" , "05" , "06" , "07" ,
+    "08" , "09" , "10" , "11" , "12" , "13" , "14" , "15" ,
     "16" , "17" , "18" , "19" , "20" , "21" , "22" , "23" ,
-    "24" , "25" , "26" , "x" , "o" , "29" , "30" , "31" ,
-    "32" , "33" , "34" , "o" , "x" , "37" , "38" , "39" ,
+    "24" , "25" , "26" , "x " , " o" , "29" , "30" , "31" ,
+    "32" , "33" , "34" , " o" , "x " , "37" , "38" , "39" ,
     "40" , "41" , "42" , "43" , "44" , "45" , "46" , "47" ,
     "48" , "49" , "50" , "51" , "52" , "53" , "54" , "55" ,
     "56" , "57" , "58" , "59" , "60" , "61" , "62" , "63" , 
@@ -92,3 +92,35 @@ A partir de uma jogada "x" ou "o" na casa [n], percorremos todas as posições d
 # Visual para o Jogador
 
 Colocar o index em jogadas válidas.
+
+---------------------------------------------------------------------------------------------------------------------
+# Maper o tabuleiro
+
+Lista x = Peças de x
+
+Lista o = Peças de o
+
+
+dict jogadasPossiviesX = {
+    index = array de jogadas possiveis
+}
+
+dict jogadasPossiviesO ={
+    index = array de jogadas possiveis
+}
+
+# Validar lista de peças
+
+Toda vez que a peça y comer z 
+
+tirar da lista z e colocar na lista y
+
+
+# Validar jogadas possiveis 
+
+pegar todas as peças que viraram e tirar do dict do oponente
+
+e todas as peças que viraram colocar em jogadas possiveis do jogador 
+
+
+

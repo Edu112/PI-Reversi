@@ -5,5 +5,5 @@ class Jogador:
         self.symbol = symbol
 
     def UserInput(self):
-        position = int(input("Vez do "+self.name+"\n Posição: "))
+        position = int(input("Vez do "+self.name+" ("+ self.symbol+") " +"\n Posição: "))
         return position
