@@ -6,7 +6,7 @@ class Tabuleiro:
         self.initial_state = np.array([
             "_" , "_" , "_" , "_" , "_" , "_" , "_" , "_" ,
             "_" , "_" , "_" , "_" , "_" , "_" , "_" , "_" ,
-            "_" , "_" , "o" , "_" , "_" , "_" , "_" , "_" ,
+            "_" , "_" , "_" , "_" , "_" , "_" , "_" , "_" ,
             "_" , "_" , "_" , "x" , "o" , "_" , "_" , "_" ,
             "_" , "_" , "_" , "o" , "x" , "_" , "_" , "_" ,
             "_" , "_" , "_" , "_" , "_" , "_" , "_" , "_" ,
@@ -16,5 +16,9 @@ class Tabuleiro:
 
     def ShowBoard(self):
         print(self.initial_state.reshape(8, 8))
+
+
+    def generateASuccessor():
+        return
 
     

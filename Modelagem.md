@@ -118,6 +118,19 @@ tirar da lista z e colocar na lista y
 
 # Validar jogadas possiveis 
 
+Ideia a curto prazo:
+
+Fazer um metodo que pega todas peças do jogador e ve se tem jogadas possiveis 
+
+esse loop para quando ele achar a primeira jogada possivel 
+
+se nao achar jogadas possiveis, passará a vez.
+ 
+
+
+
+Ideia a longo prazo :
+
 pegar todas as peças que viraram e tirar do dict do oponente
 
 e todas as peças que viraram colocar em jogadas possiveis do jogador 

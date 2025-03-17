@@ -7,7 +7,7 @@ class Validador:
 
     def PossibleMove(self, Tabuleiro, index):
 
-        if index in range(0,64) or Tabuleiro.initial_state[index] == "_":           
+        if index in range(0,64) and Tabuleiro.initial_state[index] == "_":           
             return True
         
 
