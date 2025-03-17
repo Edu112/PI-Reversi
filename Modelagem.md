@@ -137,3 +137,10 @@ e todas as peças que viraram colocar em jogadas possiveis do jogador
 
 
 
+
+# Tratar erros 
+
+out of bound nos metodos de verticallydown ( nao entra no if )
+
+
+git commit -m "Ajustada a logica de criar a lista de peças"

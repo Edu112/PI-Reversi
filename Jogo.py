@@ -29,14 +29,7 @@ def PositionToInvert(jogadaPlayer, symbolPlayer):
 
     positionToInvert = invertVerticallDown + invertVerticallUp + invertHorizontallyRight +  invertHorizontallyLeft + invertDiagonalLeftUp + invertDiagonalLeftDown + invertDiagonalRightUp + invertDiagonalRightDown
 
-    if symbolPlayer == "x":
-        jogador1.pieces.append(jogadaPlayer)
-        jogador1.pieces = jogador1.pieces + positionToInvert
-        jogador2.pieces = list(set(jogador2.pieces) - set(positionToInvert))    
-    else :
-        jogador2.pieces.append(jogadaPlayer)
-        jogador2.pieces = jogador2.pieces + positionToInvert
-        jogador1.pieces = list(set(jogador1.pieces) - set(positionToInvert)) 
+
        
     return positionToInvert  
 
@@ -202,6 +195,7 @@ def CheckPlays(Jogador,pieces):  #verifica a jogadas possiveis
 
 
 def WhoWinner(amountP1,amountP2):   # Descobre o ganhador 
+    global winner
     if amountP1 > amountP2 :
         winner = "jogador1"
     elif amountP2 > amountP1 :
@@ -233,14 +227,16 @@ def ChangeEndGame():
         winner == "jogador2"
         return
     
-    checkNoPlaysJogador1 = CheckPlays(jogador1,jogador1.pieces)
-    checkNoPlaysJogador2 = CheckPlays(jogador2,jogador2.pieces)
+    checkPlaysJogador1 = CheckPlays(jogador1,jogador1.pieces)
+    checkPlaysJogador2 = CheckPlays(jogador2,jogador2.pieces)
 
-    if checkNoPlaysJogador1 and checkNoPlaysJogador2:
+'''
+    if not checkPlaysJogador1 and not checkPlaysJogador2:
         endGame = True
         WhoWinner(amountPiecesJogador1,amountPiecesJogador2)
         return
-    return 
+'''
+     
     
 
 
@@ -254,8 +250,21 @@ def PlayGame(Jogador):
 
     if PossibleMove and PossibleInvert: 
         print("Jogada válida\n")
-        
+
         ppti = PositionToInvert(jogadaPlayer, Jogador.symbol) 
+
+        if Jogador.symbol == "x":
+            jogador1.pieces.append(jogadaPlayer)
+            jogador1.pieces = jogador1.pieces + ppti
+            jogador2.pieces = list(set(jogador2.pieces) - set(ppti))    
+        else :
+            jogador2.pieces.append(jogadaPlayer)
+            jogador2.pieces = jogador2.pieces + ppti
+            jogador1.pieces = list(set(jogador1.pieces) - set(ppti))
+    
+        jogador1.pieces = list(set(jogador1.pieces))
+        jogador2.pieces = list(set(jogador2.pieces))
+        
         if ppti != []:  # Se houver posições válidas para inverter
             tabuleiro.initial_state[jogadaPlayer] = Jogador.symbol  # Coloca a peça do jogador no tabuleiro
 
@@ -279,6 +288,8 @@ def GameLoop(jogadores):
     while not endGame:  
         roundOfPlayer = jogadores[rounds % 2]     
         PlayGame(roundOfPlayer)
+        print(jogadores[0].pieces)
+        print(jogadores[1].pieces)
         ChangeEndGame()
 
 
