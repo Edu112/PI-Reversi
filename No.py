@@ -1,4 +1,9 @@
 class No:
+    def __init__(self, estado, pontuacao):
+        self.estado = estado
+        self.pontuacao = pontuacao
+
+    '''   
     def __init__(self, estado, no_pai=None, vertice=None):
         self.estado = estado
         self.no_pai = no_pai
@@ -19,3 +24,4 @@ class No:
             if no.vertice is not None: caminho.append(no.vertice)
         caminho.reverse()
         return caminho
+        '''

@@ -1,8 +1,8 @@
 from Tabuleiro import Tabuleiro
 from Validador import Validador 
 from Jogador import Jogador
-
-
+from No import No
+import numpy as np 
 
 tabuleiro = Tabuleiro()
 validador = Validador(True)
@@ -12,9 +12,31 @@ jogadores = [jogador1,jogador2]
 endGame = False
 winner = ""
 rounds = 0
+caminhos = []
 
+noInitial = No(tabuleiro.initial_state, 0)
+caminhos.append(noInitial.estado.tolist())
 
 tabuleiro.ShowBoard()
+
+def ImprimirEstados(caminhos):
+
+    for caminho in caminhos:
+
+        caminhoNp = np.array(caminho)
+        print("\n")
+        caminhoNp = caminhoNp.reshape(8, 8)  
+        print(caminhoNp)
+
+def Utilidade(Jogador1, Jogador2):
+
+    pontuacaoPlayer1 = len(Jogador1.pieces)
+    pontuacaoPlayer2 = len(Jogador2.pieces)
+
+    return pontuacaoPlayer1 - pontuacaoPlayer2
+
+
+
 
 def PositionToInvert(jogadaPlayer, symbolPlayer):
     positionToInvert = []
@@ -270,8 +292,10 @@ def PlayGame(Jogador):
 
             # Chama a função para inverter as peças que estão nas posições do array ppti_up
             for i in ppti:
-                tabuleiro.initial_state[i] = Jogador.symbol  
-
+                tabuleiro.initial_state[i] = Jogador.symbol 
+            newNo = No(tabuleiro.initial_state, Utilidade(jogador1, jogador2))
+            caminhos.append(newNo.estado.tolist()) 
+            
         print(ppti)  # Indice das posições trocadas
         print("\n")
         rounds += 1
@@ -280,6 +304,27 @@ def PlayGame(Jogador):
         
     tabuleiro.ShowBoard()
 
+
+roundOfPlayer = jogadores[rounds % 2]     
+PlayGame(roundOfPlayer)
+print(jogadores[0].pieces)
+print(jogadores[1].pieces)
+ChangeEndGame()
+
+roundOfPlayer = jogadores[rounds % 2]     
+PlayGame(roundOfPlayer)
+print(jogadores[0].pieces)
+print(jogadores[1].pieces)
+ChangeEndGame()
+
+roundOfPlayer = jogadores[rounds % 2]     
+PlayGame(roundOfPlayer)
+print(jogadores[0].pieces)
+print(jogadores[1].pieces)
+ChangeEndGame()
+
+
+ImprimirEstados(caminhos)
 
 
 
@@ -297,8 +342,9 @@ def GameLoop(jogadores):
 
 
 
-GameLoop(jogadores)
-if winner != "empate":
-    print("Vitória: " +winner+" venceu")
-else:
-    print(winner)
+#GameLoop(jogadores)
+#if winner != "empate":
+ #   print("Vitória: " +winner+" venceu")
+#else:
+ #   print(winner)
+
