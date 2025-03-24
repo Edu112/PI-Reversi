@@ -6,13 +6,14 @@ import numpy as np
 
 tabuleiro = Tabuleiro()
 validador = Validador(True)
-jogador1 = Jogador("Eduardo", "x", [27,36])
-jogador2 = Jogador("Andre", "o", [28,35])
+jogador1 = Jogador("Eduardo", "x", [27,36], True)
+jogador2 = Jogador("Andre", "o", [28,35], True)
 jogadores = [jogador1,jogador2]
 endGame = False
 winner = ""
 rounds = 0
 caminhos = []
+listPossiblePlay = []
 
 noInitial = No(tabuleiro.initial_state, 0)
 caminhos.append(noInitial.estado.tolist())
@@ -40,24 +41,23 @@ def Utilidade(Jogador1, Jogador2):
 
 def PositionToInvert(jogadaPlayer, symbolPlayer):
     positionToInvert = []
-    invertVerticallDown = PossiblePositionToInvertVerticallyDown(jogadaPlayer,symbolPlayer) 
     invertVerticallUp = PossiblePositionToInvertVerticallyUp(jogadaPlayer,symbolPlayer)
+    invertVerticallDown = PossiblePositionToInvertVerticallyDown(jogadaPlayer,symbolPlayer)
     invertHorizontallyRight = PossiblePositionToInvertHorizontallyRight(jogadaPlayer,symbolPlayer)
     invertHorizontallyLeft = PossiblePositionToInvertHorizontallyLeft(jogadaPlayer,symbolPlayer)
     invertDiagonalLeftUp = PossiblePositionToInvertDiagonalLeftUp(jogadaPlayer,symbolPlayer)
     invertDiagonalLeftDown = PossiblePositionToInvertDiagonalLeftDown(jogadaPlayer,symbolPlayer)
-    invertDiagonalRightUp = PossiblePositionToInvertDiagonalRightUp(jogadaPlayer,symbolPlayer)    
-    invertDiagonalRightDown = PossiblePositionToInvertDiagonalRightDown(jogadaPlayer,symbolPlayer) 
+    invertDiagonalRightUp = PossiblePositionToInvertDiagonalRightUp(jogadaPlayer,symbolPlayer)
+    invertDiagonalRightDown = PossiblePositionToInvertDiagonalRightDown(jogadaPlayer,symbolPlayer)
 
     positionToInvert = invertVerticallDown + invertVerticallUp + invertHorizontallyRight +  invertHorizontallyLeft + invertDiagonalLeftUp + invertDiagonalLeftDown + invertDiagonalRightUp + invertDiagonalRightDown
 
-
-       
+  
     return positionToInvert  
 
 
 def PossiblePositionToInvertVerticallyUp(jogadaPlayer, symbolPlayer):
-
+    
     possiblePositionToInvert = []  
 
     if jogadaPlayer < 8:  # Se a posição for menos que 8, não há posições acima
@@ -66,8 +66,12 @@ def PossiblePositionToInvertVerticallyUp(jogadaPlayer, symbolPlayer):
 
     i = jogadaPlayer - 8
 
-    while tabuleiro.initial_state[i] != symbolPlayer:     #loop para cima até encontrar o simbolo do player
+    while tabuleiro.initial_state[i] != symbolPlayer: #loop para cima até encontrar o simbolo do player
         if tabuleiro.initial_state[i] == "_":
+            if len(possiblePositionToInvert) > 0:
+                listPossiblePlay.append(True) 
+            else:
+                listPossiblePlay.append(False)
             return []
         possiblePositionToInvert.append(i)
         i = i - 8
@@ -85,6 +89,10 @@ def PossiblePositionToInvertVerticallyDown(jogadaPlayer, symbolPlayer):
 
     while tabuleiro.initial_state[i] != symbolPlayer:
         if tabuleiro.initial_state[i] == "_":
+            if len(possiblePositionToInvert) > 0:
+                listPossiblePlay.append(True) 
+            else:
+                listPossiblePlay.append(False)
             return []
         possiblePositionToInvert.append(i)
         i = i + 8
@@ -102,6 +110,10 @@ def PossiblePositionToInvertHorizontallyRight(jogadaPlayer, symbolPlayer):
 
     while tabuleiro.initial_state[i] != symbolPlayer:
         if tabuleiro.initial_state[i] == "_":
+            if len(possiblePositionToInvert) > 0:
+                listPossiblePlay.append(True) 
+            else:
+                listPossiblePlay.append(False)
             return []
         possiblePositionToInvert.append(i)
         i = i + 1
@@ -119,6 +131,10 @@ def PossiblePositionToInvertHorizontallyLeft(jogadaPlayer, symbolPlayer):
 
     while tabuleiro.initial_state[i] != symbolPlayer:
         if tabuleiro.initial_state[i] == "_":
+            if len(possiblePositionToInvert) > 0:
+                listPossiblePlay.append(True) 
+            else:
+                listPossiblePlay.append(False)
             return []
         possiblePositionToInvert.append(i)
         i = i - 1
@@ -136,11 +152,14 @@ def PossiblePositionToInvertDiagonalLeftUp(jogadaPlayer, symbolPlayer):
 
     while tabuleiro.initial_state[i] != symbolPlayer:     #loop para cima até encontrar o simbolo do player
         if tabuleiro.initial_state[i] == "_":
+            if len(possiblePositionToInvert) > 0:
+                listPossiblePlay.append(True) 
+            else:
+                listPossiblePlay.append(False)
             return []
         possiblePositionToInvert.append(i)
         i = i - 9
     return possiblePositionToInvert
-
 
 def PossiblePositionToInvertDiagonalLeftDown(jogadaPlayer, symbolPlayer):
 
@@ -154,6 +173,10 @@ def PossiblePositionToInvertDiagonalLeftDown(jogadaPlayer, symbolPlayer):
 
     while tabuleiro.initial_state[i] != symbolPlayer:     #loop para cima até encontrar o simbolo do player
         if tabuleiro.initial_state[i] == "_":
+            if len(possiblePositionToInvert) > 0:
+                listPossiblePlay.append(True) 
+            else:
+                listPossiblePlay.append(False)
             return []
         possiblePositionToInvert.append(i)
         i = i + 9
@@ -171,17 +194,20 @@ def PossiblePositionToInvertDiagonalRightUp(jogadaPlayer, symbolPlayer):
 
     while tabuleiro.initial_state[i] != symbolPlayer:     #loop para cima até encontrar o simbolo do player
         if tabuleiro.initial_state[i] == "_":
+            if len(possiblePositionToInvert) > 0:
+                listPossiblePlay.append(True) 
+            else:
+                listPossiblePlay.append(False)
             return []
         possiblePositionToInvert.append(i)
         i = i - 7
     return possiblePositionToInvert
 
-
 def PossiblePositionToInvertDiagonalRightDown(jogadaPlayer, symbolPlayer):
 
     possiblePositionToInvert = []  
 
-    if jogadaPlayer  in {7,15, 23,31,39,47,55,56,57 ,58,59 ,60, 61 ,62, 63}:  # Se a posição for menos que 8, não há posições acima
+    if jogadaPlayer  in {7,15,23,31,39,47,55,56,57, 58, 59 ,60, 61 ,62, 63}:  # Se a posição for menos que 8, não há posições acima
         return []
 
 
@@ -189,6 +215,10 @@ def PossiblePositionToInvertDiagonalRightDown(jogadaPlayer, symbolPlayer):
 
     while tabuleiro.initial_state[i] != symbolPlayer:     #loop para cima até encontrar o simbolo do player
         if tabuleiro.initial_state[i] == "_":
+            if len(possiblePositionToInvert) > 0:
+                listPossiblePlay.append(True) 
+            else:
+                listPossiblePlay.append(False)
             return []
         possiblePositionToInvert.append(i)
         i = i + 7
@@ -208,10 +238,10 @@ def CheckPlay(Jogador, jogada):  # verifica uma jogada possivel
 
 
 
-def CheckPlays(Jogador,pieces):  #verifica a jogadas possiveis 
+def CheckPlays(Jogador,pieces): #verifica a jogadas possiveis 
     for i in range(0, len(pieces), 1):
         aux = PositionToInvert(pieces[i],Jogador.symbol) 
-        if len(aux) != 0:                #checa se a lista de movimentos possiveis esta vazia
+        if True in listPossiblePlay: #verifica se tem jogadas possiveis para qualquer sentido
             return True
     return False
 
@@ -252,19 +282,22 @@ def ChangeEndGame():
     checkPlaysJogador1 = CheckPlays(jogador1,jogador1.pieces)
     checkPlaysJogador2 = CheckPlays(jogador2,jogador2.pieces)
 
-'''
+
     if not checkPlaysJogador1 and not checkPlaysJogador2:
         endGame = True
         WhoWinner(amountPiecesJogador1,amountPiecesJogador2)
-        return
-'''
-     
+        return 
     
-
 
 def PlayGame(Jogador):
     global rounds
-    jogadaPlayer = Jogador.UserInput()  
+    global listPossiblePlay
+    listPossiblePlay = []  
+    try:
+        jogadaPlayer = Jogador.UserInput()
+    except ValueError:
+        print("Você não digitou um número válido.")
+        return
     PossibleMove = validador.PossibleMove(tabuleiro, jogadaPlayer) 
     CheckPlay(Jogador,jogadaPlayer)
     PossibleInvert = validador.validMove
@@ -304,30 +337,6 @@ def PlayGame(Jogador):
         
     tabuleiro.ShowBoard()
 
-
-roundOfPlayer = jogadores[rounds % 2]     
-PlayGame(roundOfPlayer)
-print(jogadores[0].pieces)
-print(jogadores[1].pieces)
-ChangeEndGame()
-
-roundOfPlayer = jogadores[rounds % 2]     
-PlayGame(roundOfPlayer)
-print(jogadores[0].pieces)
-print(jogadores[1].pieces)
-ChangeEndGame()
-
-roundOfPlayer = jogadores[rounds % 2]     
-PlayGame(roundOfPlayer)
-print(jogadores[0].pieces)
-print(jogadores[1].pieces)
-ChangeEndGame()
-
-
-ImprimirEstados(caminhos)
-
-
-
 def GameLoop(jogadores):
     
     while not endGame:  
@@ -342,9 +351,9 @@ def GameLoop(jogadores):
 
 
 
-#GameLoop(jogadores)
-#if winner != "empate":
- #   print("Vitória: " +winner+" venceu")
-#else:
- #   print(winner)
+GameLoop(jogadores)
+if winner != "empate":
+    print("Vitória: " +winner+" venceu")
+else:
+    print(winner)
 
