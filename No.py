@@ -1,7 +1,11 @@
+import numpy as np
+
 class No:
-    def __init__(self, estado, pontuacao):
-        self.estado = estado
+
+    def __init__(self, tabuleiro, pontuacao):
+        self.tabuleiro = tabuleiro
         self.pontuacao = pontuacao
+
 
     '''   
     def __init__(self, estado, no_pai=None, vertice=None):
