@@ -15,6 +15,7 @@ jogadores = [agent, jogador2]
 end_game = False
 winner = ""
 rounds = 0
+passedTurn = True
 
 '''
 def utilidade(Jogador1, Jogador2):
@@ -51,16 +52,32 @@ def positions_to_invert(jogada_player, symbol_player):
     positions_to_invert = invert_vertical_down + invert_vertical_up + invert_horizontal_right +  invert_horizontal_left + invert_diagonal_left_up + invert_diagonal_left_down + invert_diagonal_right_up + invert_diagonal_right_down
     return positions_to_invert  
 
+def check_positions_to_invert(jogada_player, symbol_player):
+
+    positions_to_invert = []
+
+    invert_vertical_up = tabuleiro.CheckPossiblePlayToInvertVerticallyUp(jogada_player,symbol_player)
+    invert_vertical_down = tabuleiro.CheckPossiblePlayToInvertVerticallyDown(jogada_player,symbol_player)
+    invert_horizontal_right = tabuleiro.CheckPossiblePlayToInvertHorizontallyRight(jogada_player,symbol_player)
+    invert_horizontal_left = tabuleiro.CheckPossiblePlayToInvertHorizontallyLeft(jogada_player,symbol_player)
+    invert_diagonal_left_up = tabuleiro.CheckPossiblePlayToInvertDiagonalLeftUp(jogada_player,symbol_player)
+    invert_diagonal_left_down = tabuleiro.CheckPossiblePlayToInvertDiagonalLeftDown(jogada_player,symbol_player)
+    invert_diagonal_right_up = tabuleiro.CheckPossiblePlayToInvertDiagonalRightUp(jogada_player,symbol_player)
+    invert_diagonal_right_down = tabuleiro.CheckPossiblePlayToInvertDiagonalRightDown(jogada_player,symbol_player)
+
+    positions_to_invert = invert_vertical_down + invert_vertical_up + invert_horizontal_right +  invert_horizontal_left + invert_diagonal_left_up + invert_diagonal_left_down + invert_diagonal_right_up + invert_diagonal_right_down
+    return positions_to_invert  
+
 def agent_invertible_pieces_per_direction(from_this_index):
 
-    invert_vertical_up = tabuleiro.PossiblePositionToInvertVerticallyUp(from_this_index, agent.symbol)
-    invert_vertical_down = tabuleiro.PossiblePositionToInvertVerticallyDown(from_this_index,agent.symbol)
-    invert_horizontal_right = tabuleiro.PossiblePositionToInvertHorizontallyRight(from_this_index,agent.symbol)
-    invert_horizontal_left = tabuleiro.PossiblePositionToInvertHorizontallyLeft(from_this_index,agent.symbol)
-    invert_diagonal_left_up = tabuleiro.PossiblePositionToInvertDiagonalLeftUp(from_this_index,agent.symbol)
-    invert_diagonal_left_down = tabuleiro.PossiblePositionToInvertDiagonalLeftDown(from_this_index,agent.symbol)
-    invert_diagonal_right_up = tabuleiro.PossiblePositionToInvertDiagonalRightUp(from_this_index,agent.symbol)
-    invert_diagonal_right_down = tabuleiro.PossiblePositionToInvertDiagonalRightDown(from_this_index,agent.symbol)
+    invert_vertical_up = tabuleiro.CheckPossiblePlayToInvertVerticallyUp(from_this_index, agent.symbol)
+    invert_vertical_down = tabuleiro.CheckPossiblePlayToInvertVerticallyDown(from_this_index,agent.symbol)
+    invert_horizontal_right = tabuleiro.CheckPossiblePlayToInvertHorizontallyRight(from_this_index,agent.symbol)
+    invert_horizontal_left = tabuleiro.CheckPossiblePlayToInvertHorizontallyLeft(from_this_index,agent.symbol)
+    invert_diagonal_left_up = tabuleiro.CheckPossiblePlayToInvertDiagonalLeftUp(from_this_index,agent.symbol)
+    invert_diagonal_left_down = tabuleiro.CheckPossiblePlayToInvertDiagonalLeftDown(from_this_index,agent.symbol)
+    invert_diagonal_right_up = tabuleiro.CheckPossiblePlayToInvertDiagonalRightUp(from_this_index,agent.symbol)
+    invert_diagonal_right_down = tabuleiro.CheckPossiblePlayToInvertDiagonalRightDown(from_this_index,agent.symbol)
 
     invertible_pieces_per_direction = [invert_vertical_up, invert_vertical_down, invert_horizontal_right, invert_horizontal_left, invert_diagonal_left_up, invert_diagonal_left_down, invert_diagonal_right_up, invert_diagonal_right_down]
     return invertible_pieces_per_direction
@@ -78,7 +95,7 @@ def is_there_position_to_invert_in_the_game(Jogador):
 
     for i in range(0, len(Jogador.pieces)):
 
-        positions_to_invert(Jogador.pieces[i], Jogador.symbol) 
+        check_positions_to_invert(Jogador.pieces[i], Jogador.symbol) 
         if True in tabuleiro.list_possible_play: # verifica se tem jogadas possiveis para qualquer sentido
             return True
         
@@ -129,12 +146,13 @@ def change_end_game():
         return 
     
 def play_game(Jogador):
-
+    global passedTurn
     global rounds
     tabuleiro.list_possible_play = []
     jogada_player = 0
 
     if isinstance(Jogador, AgenteInteligente):
+        agent.qtd_invertible_pieces = 0
         for i in range(len(agent.pieces)):
             aippd = agent_invertible_pieces_per_direction(agent.pieces[i]) # aippd (Abreviação)
             agent.heuristica(aippd)
@@ -152,7 +170,7 @@ def play_game(Jogador):
     possible_invert = is_there_position_to_invert_from_this_index(Jogador,jogada_player)
 
     if possible_move and possible_invert: 
-        print("Jogada válida\n")
+        print(f"Jogada válida {jogada_player}\n")
 
         opponent_pieces = positions_to_invert(jogada_player, Jogador.symbol) 
 
@@ -181,10 +199,10 @@ def play_game(Jogador):
         '''
 
         rounds += 1 # Faz sentido depois que apenas um jogador joga nós incrementarmos round?
-
+        passedTurn = True
     else:
-        print("Jogada inválida. Jogue novamente\n")
-        
+        print(f"Jogada inválida. {jogada_player} Jogue novamente \n")
+        passedTurn = False
     tabuleiro.ShowBoard()
 
 def verify_winner():
@@ -197,8 +215,8 @@ def verify_winner():
 def game_loop(jogadores):
     
     while not end_game: 
-
-        roundOfPlayer = jogadores[rounds % 2]     
+        if passedTurn :
+            roundOfPlayer = jogadores[rounds % 2]     
         play_game(roundOfPlayer)
         change_end_game()
         
