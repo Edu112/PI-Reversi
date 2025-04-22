@@ -17,7 +17,6 @@ winner = ""
 rounds = 0
 passedTurn = True
 
-'''
 def utilidade(Jogador1, Jogador2):
 
     points_player1 = len(Jogador1.pieces)
@@ -32,7 +31,7 @@ tabuleiro_as_list = tabuleiro.initial_state.tolist()
 pontuacao_atual = utilidade(jogador1, jogador2)
 no_initial = No(tabuleiro_as_list, pontuacao_atual)
 caminhos.append(no_initial)
-'''
+
 
 tabuleiro.ShowBoard()
 
@@ -191,12 +190,11 @@ def play_game(Jogador):
 
         for i in opponent_pieces:
             tabuleiro.initial_state[i] = Jogador.symbol
-        '''
+        
         tabuleiro_as_list = tabuleiro.initial_state.tolist()
         pontuacao_atual = utilidade(jogador1, jogador2)
         new_no = No(tabuleiro_as_list, pontuacao_atual)
         caminhos.append(new_no)
-        '''
 
         rounds += 1 # Faz sentido depois que apenas um jogador joga nós incrementarmos round?
         passedTurn = True
