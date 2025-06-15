@@ -14,6 +14,7 @@ class Tabuleiro:
             "_" , "_" , "_" , "_" , "_" , "_" , "_" , "_" ,
         ])
         self.list_possible_play = []
+        self.jogadas_validas_tabuleiro = None
 
     def ShowBoard(self):
         print(self.initial_state.reshape(8, 8))
@@ -21,6 +22,8 @@ class Tabuleiro:
     def PossiblePositionToInvertVerticallyUp(self, jogadaPlayer, symbolPlayer):
         possiblePositionToInvert = []
         i = jogadaPlayer - 8
+        if jogadaPlayer is None:
+            return []
         while i >= 0:
             if self.initial_state[i] == "_":
                 return []
@@ -34,6 +37,8 @@ class Tabuleiro:
     def PossiblePositionToInvertVerticallyDown(self, jogadaPlayer, symbolPlayer):
         possiblePositionToInvert = []
         i = jogadaPlayer + 8
+        if jogadaPlayer is None:
+            return []
         while i <= 63:
             if self.initial_state[i] == "_":
                 return []
@@ -48,6 +53,8 @@ class Tabuleiro:
         possiblePositionToInvert = []
         row = jogadaPlayer // 8
         i = jogadaPlayer + 1
+        if jogadaPlayer is None:
+            return []
         while i % 8 != 0:
             if self.initial_state[i] == "_":
                 return []
@@ -61,6 +68,8 @@ class Tabuleiro:
     def PossiblePositionToInvertHorizontallyLeft(self, jogadaPlayer, symbolPlayer):
         possiblePositionToInvert = []
         i = jogadaPlayer - 1
+        if jogadaPlayer is None:
+            return []
         while i >= 0 and i // 8 == jogadaPlayer // 8:
             if self.initial_state[i] == "_":
                 return []
@@ -73,6 +82,8 @@ class Tabuleiro:
     def PossiblePositionToInvertDiagonalLeftUp(self, jogadaPlayer, symbolPlayer):
         possiblePositionToInvert = []
         i = jogadaPlayer - 9
+        if jogadaPlayer is None:
+            return []
         while i >= 0 and (i % 8) < (jogadaPlayer % 8):
             if self.initial_state[i] == "_":
                 return []
@@ -85,6 +96,8 @@ class Tabuleiro:
     def PossiblePositionToInvertDiagonalRightDown(self, jogadaPlayer, symbolPlayer):
         possiblePositionToInvert = []
         i = jogadaPlayer + 9
+        if jogadaPlayer is None:
+            return []
         while i <= 63 and (i % 8) > (jogadaPlayer % 8):
             if self.initial_state[i] == "_":
                 return []
@@ -96,8 +109,10 @@ class Tabuleiro:
 
 
     def PossiblePositionToInvertDiagonalLeftDown(self, jogadaPlayer, symbolPlayer):
-        possiblePositionToInvert = []
+        possiblePositionToInvert = []  
         i = jogadaPlayer + 7
+        if jogadaPlayer is None:
+            return []
         while i <= 63 and (i % 8) < (jogadaPlayer % 8):
             if self.initial_state[i] == "_":
                 return []
@@ -111,6 +126,8 @@ class Tabuleiro:
     def PossiblePositionToInvertDiagonalRightUp(self, jogadaPlayer, symbolPlayer):
         possiblePositionToInvert = []
         i = jogadaPlayer - 7
+        if jogadaPlayer is None:
+            return []
         while i >= 0 and (i % 8) > (jogadaPlayer % 8):
             if self.initial_state[i] == "_":
                 return []
@@ -124,187 +141,199 @@ class Tabuleiro:
 
 #checar jogadas possiveis
     def CheckPossiblePlayToInvertVerticallyUp(self, jogadaPlayer, symbolPlayer):
-        possiblePlays = []  
-
-        if jogadaPlayer < 16:  # Se a posição for menos que 16, não há posições acima que possam ser invertidas
+        possiblePlays = []
+        if jogadaPlayer < 16:
+            self.list_possible_play.append(False)
             return []
 
         i = jogadaPlayer - 8
-
-        while self.initial_state[i] != symbolPlayer : #loop para cima até encontrar o simbolo do player
+        while self.initial_state[i] != symbolPlayer:
             if self.initial_state[i] == "_":
-                if len(possiblePlays) > 0:
-                    self.list_possible_play.append(True)
-                    return possiblePlays
-                else:
-                    self.list_possible_play.append(False)
-                    break
+                self.list_possible_play.append(False)
+                return []
             possiblePlays.append(i)
-            if jogadaPlayer < 8:
-                break
-            i = i - 8
-        return []
-    
+            if i < 8:
+                self.list_possible_play.append(False)
+                return []
+            i -= 8
+
+        if possiblePlays:
+            self.list_possible_play.append(True)
+            return possiblePlays
+        else:
+            self.list_possible_play.append(False)
+            return []
+
+
     def CheckPossiblePlayToInvertVerticallyDown(self, jogadaPlayer, symbolPlayer):
-
-        possiblePlays = []  
-
-        if jogadaPlayer > 47:  # Se a posição for maior que 47, não há posições abaixo
+        possiblePlays = []
+        if jogadaPlayer > 47:
+            self.list_possible_play.append(False)
             return []
 
         i = jogadaPlayer + 8
-
         while self.initial_state[i] != symbolPlayer:
             if self.initial_state[i] == "_":
-                if len(possiblePlays) > 0:
-                    self.list_possible_play.append(True)
-                    return possiblePlays
-                else:
-                    self.list_possible_play.append(False)
-                    break
+                self.list_possible_play.append(False)
+                return []
             possiblePlays.append(i)
-            if jogadaPlayer > 55:
-                break            
-            i = i + 8
-        return []
+            if i > 55:
+                self.list_possible_play.append(False)
+                return []
+            i += 8
+
+        if possiblePlays:
+            self.list_possible_play.append(True)
+            return possiblePlays
+        else:
+            self.list_possible_play.append(False)
+            return []
 
     def CheckPossiblePlayToInvertHorizontallyRight(self, jogadaPlayer, symbolPlayer):
-
-        possiblePlays = []  
-
-        if jogadaPlayer in {6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55, 62, 63} : #não há posições para serem invertidas à direita
+        possiblePlays = []
+        if jogadaPlayer % 8 >= 6:
+            self.list_possible_play.append(False)
             return []
 
         i = jogadaPlayer + 1
-
         while self.initial_state[i] != symbolPlayer:
             if self.initial_state[i] == "_":
-                if len(possiblePlays) > 0:
-                    self.list_possible_play.append(True)
-                    return possiblePlays
-                else:
-                    self.list_possible_play.append(False)
-                    break
+                self.list_possible_play.append(False)
+                return []
             possiblePlays.append(i)
-            if jogadaPlayer in {7, 15, 23,31,39,47,55,63} :
-                break
-            i = i + 1
-        return []
-    
+            if i % 8 == 7:
+                self.list_possible_play.append(False)
+                return []
+            i += 1
+
+        if possiblePlays:
+            self.list_possible_play.append(True)
+            return possiblePlays
+        else:
+            self.list_possible_play.append(False)
+            return []
+
     def CheckPossiblePlayToInvertHorizontallyLeft(self, jogadaPlayer, symbolPlayer):
-
-        possiblePlays = []  
-
-        if jogadaPlayer in {0, 1, 8, 9, 16, 17, 24, 25, 32, 33, 40, 41, 48, 49, 56, 57} : #não há posições para esquerda
+        possiblePlays = []
+        if jogadaPlayer % 8 <= 1:
+            self.list_possible_play.append(False)
             return []
 
         i = jogadaPlayer - 1
-
         while self.initial_state[i] != symbolPlayer:
             if self.initial_state[i] == "_":
-                if len(possiblePlays) > 0:
-                    self.list_possible_play.append(True)
-                    return possiblePlays
-                else:
-                    self.list_possible_play.append(False)
-                    break
+                self.list_possible_play.append(False)
+                return []
             possiblePlays.append(i)
-            if jogadaPlayer in {0, 8, 16,24,32,40,48,56} :
-                break
-            i = i - 1
-        return []
+            if i % 8 == 0:
+                self.list_possible_play.append(False)
+                return []
+            i -= 1
+
+        if possiblePlays:
+            self.list_possible_play.append(True)
+            return possiblePlays
+        else:
+            self.list_possible_play.append(False)
+            return []
 
     def CheckPossiblePlayToInvertDiagonalLeftUp(self, jogadaPlayer, symbolPlayer):
-
-        possiblePlays = []  
-
-        if jogadaPlayer < 18 or jogadaPlayer in {24, 25, 32, 33, 40, 41, 48, 49, 56, 57}:
+        possiblePlays = []
+        if jogadaPlayer < 9 or jogadaPlayer % 8 <= 0:
+            self.list_possible_play.append(False)
             return []
 
         i = jogadaPlayer - 9
-
-        while self.initial_state[i] != symbolPlayer:     #loop para cima até encontrar o simbolo do player
+        while self.initial_state[i] != symbolPlayer:
             if self.initial_state[i] == "_":
-                if len(possiblePlays) > 0:
-                    self.list_possible_play.append(True)
-                    return possiblePlays
-                else:
-                    self.list_possible_play.append(False)
-                    break
+                self.list_possible_play.append(False)
+                return []
             possiblePlays.append(i)
-            if jogadaPlayer  in {0, 1, 2,3,4,5,6,7,8,16,24,32,40,48,56}:
-                break
-            i = i - 9
-        return []
-    
+            if i < 9 or i % 8 == 0:
+                self.list_possible_play.append(False)
+                return []
+            i -= 9
+
+        if possiblePlays:
+            self.list_possible_play.append(True)
+            return possiblePlays
+        else:
+            self.list_possible_play.append(False)
+            return []
+
     def CheckPossiblePlayToInvertDiagonalLeftDown(self, jogadaPlayer, symbolPlayer):
-
-        possiblePlays = []  
-
-        if jogadaPlayer > 47 or jogadaPlayer in {0, 1, 8, 9, 16, 17, 24, 25, 32, 33, 40, 41}:  
+        possiblePlays = []
+        if jogadaPlayer > 54 or jogadaPlayer % 8 <= 0:
+            self.list_possible_play.append(False)
             return []
 
         i = jogadaPlayer + 9
-
-        while self.initial_state[i] != symbolPlayer:     #loop para cima até encontrar o simbolo do player
+        while self.initial_state[i] != symbolPlayer:
             if self.initial_state[i] == "_":
-                if len(possiblePlays) > 0:
-                    self.list_possible_play.append(True)
-                    return possiblePlays
-                else:
-                    self.list_possible_play.append(False)
-                    break
+                self.list_possible_play.append(False)
+                return []
             possiblePlays.append(i)
-            if jogadaPlayer  in {7, 15, 23,31,39,47,55,63,56,57 ,58,59 ,60, 61 ,62, 63 }:
-                break
-            i = i + 9
-        return []
-    
+            if i > 54 or i % 8 == 0:
+                self.list_possible_play.append(False)
+                return []
+            i += 9
+
+        if possiblePlays:
+            self.list_possible_play.append(True)
+            return possiblePlays
+        else:
+            self.list_possible_play.append(False)
+            return []
+
     def CheckPossiblePlayToInvertDiagonalRightUp(self, jogadaPlayer, symbolPlayer):
-
-        possiblePlays = []  
-
-        if jogadaPlayer < 16 or jogadaPlayer in {22, 23, 30, 31, 38, 39, 46, 47, 54, 55, 62, 63}:  # Se a posição for menos que 8, não há posições acima
+        possiblePlays = []
+        if jogadaPlayer < 7 or jogadaPlayer % 8 >= 7:
+            self.list_possible_play.append(False)
             return []
 
         i = jogadaPlayer - 7
-
-        while self.initial_state[i] != symbolPlayer:     #loop para cima até encontrar o simbolo do player
+        while self.initial_state[i] != symbolPlayer:
             if self.initial_state[i] == "_":
-                if len(possiblePlays) > 0:
-                    self.list_possible_play.append(True)
-                    return possiblePlays
-                else:
-                    self.list_possible_play.append(False)
-                    break
+                self.list_possible_play.append(False)
+                return []
             possiblePlays.append(i)
-            if jogadaPlayer  in {0, 1, 2,3,4,5,6,7,15, 23,31,39,47,55,63 }:
-                break
-            i = i - 7
-        return []
+            if i < 7 or i % 8 == 7:
+                self.list_possible_play.append(False)
+                return []
+            i -= 7
+
+        if possiblePlays:
+            self.list_possible_play.append(True)
+            return possiblePlays
+        else:
+            self.list_possible_play.append(False)
+            return []
 
     def CheckPossiblePlayToInvertDiagonalRightDown(self, jogadaPlayer, symbolPlayer):
-
-        possiblePlays = []  
-
-        if jogadaPlayer > 45 or jogadaPlayer in {6, 7, 14, 15, 22, 23, 30, 31, 38, 39}:  # Se a posição for menos que 8, não há posições acima
+        possiblePlays = []
+        if jogadaPlayer > 55 or jogadaPlayer % 8 >= 7:
+            self.list_possible_play.append(False)
             return []
 
         i = jogadaPlayer + 7
-
-        while self.initial_state[i] != symbolPlayer:     #loop para cima até encontrar o simbolo do player
+        while self.initial_state[i] != symbolPlayer:
             if self.initial_state[i] == "_":
-                if len(possiblePlays) > 0:
-                    self.list_possible_play.append(True)
-                    return possiblePlays
-                else:
-                    self.list_possible_play.append(False)
-                    break
+                self.list_possible_play.append(False)
+                return []
             possiblePlays.append(i)
-            if jogadaPlayer  in {7,15,23,31,39,47,55,56,57, 58, 59 ,60, 61 ,62, 63}:
-                break
-            i = i + 7
-        return [] 
+            if i > 55 or i % 8 == 7:
+                self.list_possible_play.append(False)
+                return []
+            i += 7
+
+        if possiblePlays:
+            self.list_possible_play.append(True)
+            return possiblePlays
+        else:
+            self.list_possible_play.append(False)
+            return []
+
+
 
 
     def generateASuccessor():

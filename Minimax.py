@@ -43,7 +43,7 @@ def melhor_jogada_agente(jogo, profundidade_maxima = 8):
   melhor_valor = float("-inf")
   melhor_jogada = -1
   for proximo_jogo in jogo.jogos_validos:
-    utilidade = minimax(jogo.jogar(proximo_jogo), False, jogo.turno(), profundidade_maxima)
+    utilidade = minimax(jogo.jogar(proximo_jogo), False, jogo.roundOfPlayer, profundidade_maxima)
     if utilidade > melhor_valor:
       melhor_valor = utilidade
       melhor_jogada = proximo_jogo
@@ -53,7 +53,7 @@ def melhor_jogada_agente_poda(jogo, profundidade_maxima = 8):
   melhor_valor = float("-inf")
   melhor_jogada = -1
   for proximo_jogo in jogo.jogos_validos:
-    utilidade = minimax_alfabeta(jogo.jogar(proximo_jogo), False, jogo.turno(), profundidade_maxima)
+    utilidade = minimax_alfabeta(jogo.jogar(proximo_jogo), False, jogo.roundOfPlayer, profundidade_maxima)
     if utilidade > melhor_valor:
       melhor_valor = utilidade
       melhor_jogada = proximo_jogo
