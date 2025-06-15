@@ -2,7 +2,7 @@ from Jogador import Jogador
 
 class AgenteInteligente(Jogador): # Herda de Jogador
 
-    def __init__(self, name, symbol, pieces):
+    def _init_(self, name, symbol, pieces):
         self.name = name
         self.symbol = symbol
         self.pieces = pieces
@@ -54,6 +54,4 @@ class AgenteInteligente(Jogador): # Herda de Jogador
 
             else: # direction = "diagonal right down"
                 less_index = len(invertible_pieces_per_direction[7]) - 1
-                self.index_to_play = invertible_pieces_per_direction[7][less_index] + 9 
-
-            
+                self.index_to_play = invertible_pieces_per_direction[7][less_index] + 9
