@@ -1,6 +1,4 @@
-
-
-def minimax(jogo, turno_max, jogador, profundidade_maxima = 8):
+def minimax(jogo, turno_max, jogador, profundidade_maxima = 4):
   # se o jogo acabou ou se a profundidade é máxima
   if jogo.end_game or profundidade_maxima == 0:
     return jogo.calcular_utilidade()
@@ -9,6 +7,7 @@ def minimax(jogo, turno_max, jogador, profundidade_maxima = 8):
     melhor_valor = float("-inf") # Menos infinito é o menor valor
     for proximo_jogo in jogo.jogos_validos:
       utilidade = minimax(jogo.jogar(proximo_jogo), False, jogador, profundidade_maxima - 1)
+
       melhor_valor = max(utilidade, melhor_valor) # proximo_jogo com o maior valor
     return melhor_valor
   else: # turno no MIN
@@ -39,17 +38,19 @@ def minimax_alfabeta(jogo, turno_max, jogador, profundidade_maxima = 8, alfa = f
       return beta
 
 # Encotrar o melhor movimento do computador
-def melhor_jogada_agente(jogo, profundidade_maxima = 8):
+def melhor_jogada_agente(jogo, profundidade_maxima = 4):
   melhor_valor = float("-inf")
   melhor_jogada = -1
   for proximo_jogo in jogo.jogos_validos:
-    utilidade = minimax(jogo.jogar(proximo_jogo), False, jogo.roundOfPlayer, profundidade_maxima)
+
+    utilidade = minimax(jogo.jogar(proximo_jogo), False, 
+    jogo.roundOfPlayer, profundidade_maxima)
     if utilidade > melhor_valor:
       melhor_valor = utilidade
       melhor_jogada = proximo_jogo
   return melhor_jogada
 
-def melhor_jogada_agente_poda(jogo, profundidade_maxima = 8):
+def melhor_jogada_agente_poda(jogo, profundidade_maxima = 4):
   melhor_valor = float("-inf")
   melhor_jogada = -1
   for proximo_jogo in jogo.jogos_validos:

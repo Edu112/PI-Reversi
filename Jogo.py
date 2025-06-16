@@ -32,6 +32,7 @@ class Jogo:
         return points_agent - points_jogador
     
     def gerar_jogadas_validas(self):
+
         agent = self.jogador1 if self.roundOfPlayer == self.jogador1 else self.jogador2
         jogadas_validas = []
 
@@ -226,14 +227,10 @@ class Jogo:
             agent.qtd_invertible_pieces = 0
 
             self.jogos_validos = self.gerar_jogadas_validas()
-               #### Implementar Minimax aqui
-            #self.turno_max = not self.turno_max ?
             jogada_player = Minimax.melhor_jogada_agente(self)
 
         else:
-            for i in range(len(Jogador.pieces)):
-                self.jogos_validos += self.check_positions_to_invert(Jogador.pieces[i],Jogador.symbol)
-
+            self.jogos_validos = self.gerar_jogadas_validas()
             try:
                 jogada_player = Jogador.UserInput()
             except ValueError:
